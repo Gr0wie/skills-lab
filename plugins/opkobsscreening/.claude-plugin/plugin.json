@@ -1,7 +1,7 @@
 {
   "name": "opkobsscreening",
   "description": "Screener danske virksomheder som mulige opkøbsemner ud fra CVR, offentliggjorte årsrapporter og offentlige ejerdata — ingen betalingsdatabaser — og leverer et regneark med fanerne Kandidater, Fravalgte og Metode og forbehold plus en grafisk A4 one pager i PDF.",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "author": {
     "name": "Gr0wie",
     "url": "https://github.com/Gr0wie"

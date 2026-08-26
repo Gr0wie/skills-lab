@@ -1,0 +1,41 @@
+{
+ "skill_name": "dansk-opkobsscreening",
+ "evals": [
+  {
+   "id": 0,
+   "name": "gron-omstilling",
+   "prompt": "Jeg skal bruge en screening af danske leverandører til den grønne omstilling som mulige opkøbsemner. Kriterier: omsætning mellem 100 og 500 mio. DKK, dansk hovedsæde, egnet til majoritetsovertagelse (altså ikke børsnoteret, ikke del af en større koncern, ikke allerede kapitalfondsejet). Bonus hvis der er tegn på generationsskifte. Dæk vind, sol, varmepumper/fjernvarme og biogas. Brug kun offentligt tilgængelige kilder — CVR, offentliggjorte årsrapporter, selskabernes hjemmesider. Ikke betalingsdatabaser. Sigt efter 8-12 selskaber, kvalitet frem for antal.",
+   "expected_output": "Et regneark med fanerne Kandidater, Fravalgte og Metode og forbehold, plus en A4 one pager i PDF på præcis én side. Hvert selskab har kilde og regnskabsår. Selskaber uden oplyst omsætning har 'ikke oplyst' i omsætningsfeltet og et markeret skøn.",
+   "files": [],
+   "assertions": [
+    "Leverer et regneark (.xlsx)",
+    "Regnearket har præcis fanerne Kandidater, Fravalgte og Metode og forbehold",
+    "Leverer en grafisk one pager (PDF på én side eller præsentation med ét slide)",
+    "One pageren er en PDF på præcis én side",
+    "Alle kandidater har en udfyldt, efterprøvelig kilde",
+    "Alle kandidater har angivet regnskabsår",
+    "Selskaber uden oplyst omsætning står som 'ikke oplyst' med markeret skøn",
+    "Fanen Fravalgte har 5-10 selskaber, hver med begrundelse",
+    "Metodefanen dækker både segmentdækning og hvad der ikke kunne verificeres"
+   ]
+  },
+  {
+   "id": 1,
+   "name": "foedevareemballage",
+   "prompt": "vi kigger på emballage til fødevareindustrien og skal have en longlist over danske producenter og underleverandører vi kunne købe os ind i. størrelse 150-600 mio i omsætning, skal være dansk ejet og ikke ligge under en udenlandsk koncern. jeg vil helst have det som et regneark jeg kan arbejde videre i plus noget jeg kan vise min partner på ét slide. 8-12 selskaber er fint.",
+   "expected_output": "Samme to leverancer, men for emballage til fødevarer og med kriteriet 150-600 mio. Skal generalisere: segmenter tilpasset branchen, one pagerens graf viser 150-600 som kriteriebåndet.",
+   "files": [],
+   "assertions": [
+    "Leverer et regneark (.xlsx)",
+    "Regnearket har præcis fanerne Kandidater, Fravalgte og Metode og forbehold",
+    "Leverer en grafisk one pager (PDF på én side eller præsentation med ét slide)",
+    "One pageren er en PDF på præcis én side",
+    "Alle kandidater har en udfyldt, efterprøvelig kilde",
+    "Alle kandidater har angivet regnskabsår",
+    "Selskaber uden oplyst omsætning står som 'ikke oplyst' med markeret skøn",
+    "Fanen Fravalgte har 5-10 selskaber, hver med begrundelse",
+    "Metodefanen dækker både segmentdækning og hvad der ikke kunne verificeres"
+   ]
+  }
+ ]
+}
