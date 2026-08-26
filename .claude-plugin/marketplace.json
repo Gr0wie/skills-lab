@@ -1,0 +1,32 @@
+{
+  "name": "skills-lab",
+  "owner": {
+    "name": "Gr0wie",
+    "url": "https://github.com/Gr0wie"
+  },
+  "metadata": {
+    "description": "Martins arbejdsbord for Claude-skills. Plugins herfra installeres med @skills-lab.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "opkobsscreening",
+      "source": "./plugins/opkobsscreening",
+      "description": "Screener danske virksomheder som mulige opkøbsemner ud fra CVR, offentliggjorte årsrapporter og offentlige ejerdata, og leverer et regneark med tre faner plus en grafisk A4 one pager i PDF.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Gr0wie"
+      },
+      "keywords": [
+        "screening",
+        "m&a",
+        "opkøb",
+        "danmark",
+        "cvr",
+        "sourcing",
+        "longlist"
+      ],
+      "category": "research"
+    }
+  ]
+}

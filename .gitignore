@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.DS_Store
+.venv/
+# arbejdsfiler fra kørsler — datafiler og byggede dokumenter hører ikke i repoet
+*.xlsx
+*.pdf
+data*.json
+!plugins/**/evals/*.json
