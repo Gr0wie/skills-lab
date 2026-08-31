@@ -12,8 +12,7 @@ Alle beløb i mio. DKK som tal (ikke tekst, ikke tusinder).
   "fravalgte": [ ... ],
   "oevrige_fravalgte": [ ... ],
   "segmentdaekning": [ ... ],
-  "metode": [ ... ],
-  "footer_kort": [ ... ]
+  "metode": [ ... ]
 }
 ```
 
@@ -35,7 +34,7 @@ Alle beløb i mio. DKK som tal (ikke tekst, ikke tusinder).
 }
 ```
 
-`skala_max` sætter x-aksens maksimum på one pageren. Vælg et rundt tal over det højeste
+`skala_max` sætter x-aksens maksimum på intervalgrafen (slide 3). Vælg et rundt tal over det højeste
 skøn. `hovedkonklusion` må indeholde `<b>` og `&nbsp;` — intet andet markup.
 
 ## kandidater
@@ -66,13 +65,14 @@ efter omsætning — det er den rangordning, modtageren skal bruge.
 
 - `omsaetning`: tal hvis oplyst i årsrapporten, ellers `null`. Ved `null` **skal**
   `usikkerheder` begynde med `OMSÆTNING ESTIMERET`, og `skoen.lav`/`skoen.hoej` udfyldes.
-- `segment_kort` er den lille undertekst i one pagerens graf. Hold den under ~34 tegn.
+- `segment_kort` er segmentteksten på profilslidet (slide 5). Hold den under ~34 tegn.
   Udelades den, bruges `segment`.
-- `skoen.status`: `"inde"`, `"over"` eller `"under"`. Styrer, om søjlen tegnes fyldt
-  (inde) eller lys med kant (uden for kriteriet), og farven på flagteksten.
-- `skoen.flag`: den korte tekst yderst til højre i grafen. Brug `▲` for over og `▼` for
-  under, fx `"▲ formentlig over"`. Ved oplyst omsætning: `"oplyst"`.
-- Er `omsaetning` udfyldt, kan `skoen` udelades; så tegnes en rombe på det faktiske tal.
+- `skoen.status`: `"inde"`, `"over"` eller `"under"`. Styrer intervalbjælkens farve på
+  slide 3: blå for `inde`, orange for `over` og `under`.
+- `skoen.flag`: kort statustekst. Bruges i regnearket; præsentationen viser status som
+  farve. Brug `▲` for over og `▼` for under, fx `"▲ formentlig over"`.
+- Er `omsaetning` udfyldt, kan `skoen` udelades; så tegnes en mørk punktmarkør på det
+  faktiske tal i stedet for en intervalbjælke.
 - Ukendte felter: skriv `"ikke fundet"`. Lad dem aldrig stå tomme.
 
 ## fravalgte
@@ -96,7 +96,7 @@ Har et selskab intet CVR-nummer i sammenhængen (fx en koncern omtalt samlet), s
 ## oevrige_fravalgte
 
 Alle øvrige fravalgte, grupperet efter den årsag, der afgjorde sagen. Driver både
-metodefanens oversigt og one pagerens fravalgsgraf, så tallene kan ikke komme i utakt.
+metodefanens oversigt og fravalgsgrafen på slide 4, så tallene kan ikke komme i utakt.
 
 ```json
 {
@@ -107,8 +107,8 @@ metodefanens oversigt og one pagerens fravalgsgraf, så tallene kan ikke komme i
 }
 ```
 
-Tilføj `"aarsag_kort"`, hvis årsagen er for lang til søjlegrafen på one pageren — den har
-plads til ca. 34 tegn. Uden feltet afkortes teksten med ellipse, og en afkortet
+Tilføj `"aarsag_kort"`, hvis årsagen er for lang til søjlegrafen på slide 4 — den har
+plads til ca. 32 tegn. Uden feltet afkortes teksten med ellipse, og en afkortet
 afvisningsgrund er ubrugelig for læseren.
 
 `gruppe` skal være `"ejerskab"`, `"stoerrelse"` eller `"oevrigt"` — den bestemmer farven
@@ -121,7 +121,7 @@ poster i `fravalgte` er en delmængde af disse og tælles ikke oveni.
 ## segmentdaekning
 
 Ét punkt pr. segment i mandatet — også dem med nul kandidater. Nullerne er ofte
-screeningens vigtigste udsagn, og one pageren markerer dem særskilt.
+screeningens vigtigste udsagn, og slide 4 markerer dem særskilt.
 
 ```json
 [ {"navn": "Biogas", "antal": 6}, {"navn": "Sol", "antal": 0} ]
@@ -148,13 +148,6 @@ segmenter der er dårligst dækket, hvad der ikke kunne verificeres, og hvad man
 særligt skeptisk over for. Afslut med en overskrift til oversigten over øvrige fravalgte
 — builderen indsætter tabellen efter det sidste element.
 
-## footer_kort
-
-Præcis tre kort nederst på one pageren. Brug dem til: hvem man starter med, hvilket
-forbehold der betyder mest, og hvad der er signal frem for oplysning.
-
-```json
-[ {"titel": "Tre at starte med", "tekst": "<b>Nilan A/S</b>, Hedensted — …"} ]
-```
-
-`tekst` må indeholde `<b>` og `<br>`.
+Slide 5 i præsentationen bygges på de tre øverste kandidater, ikke på et selvstændigt
+felt. Der er derfor ingen `footer_kort`: profilerne skal komme fra de samme data som
+resten, ellers kan kortet og kandidatlisten nå at sige hvert sit.

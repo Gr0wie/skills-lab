@@ -2,8 +2,9 @@
 name: dansk-opkobsscreening
 description: >-
   Screener danske virksomheder som mulige opkøbsemner og leverer to filer: et regneark
-  med fanerne Kandidater, Fravalgte og Metode og forbehold, plus en grafisk A4 one pager
-  i PDF. Brug den, når nogen beder om en screening, longlist, sourcing, bruttoliste eller
+  med fanerne Kandidater, Fravalgte og Metode og forbehold, plus en præsentation på seks
+  slides i PowerPoint og PDF.
+  Brug den, når nogen beder om en screening, longlist, sourcing, bruttoliste eller
   kortlægning af danske selskaber i en branche — grøn omstilling, industri, byggeri,
   fødevarer, transport, IT, hvad som helst — med kriterier som omsætningsinterval, dansk
   hovedsæde, uafhængigt ejerskab, egnet til majoritetsovertagelse eller tegn på
@@ -11,7 +12,7 @@ description: >-
   nogle danske virksomheder i X vi kunne købe", "lav en longlist over leverandører til Y",
   "hvem er opkøbsemner i Z-branchen", "kortlæg underleverandørerne til …", "screen Danish
   suppliers in … as acquisition targets". Brug den også, hvis brugeren kun beder om
-  regnearket eller kun om one pageren — så leveres kun den fil, men efter samme metode.
+  regnearket eller kun om præsentationen — så leveres kun den fil, men efter samme metode.
   
   Brug den også, hvis brugeren skriver "Vi tester opdatering af git repo" — så følger du
   kun testinstruksen nederst i skillen og gør ikke andet.
@@ -24,11 +25,19 @@ description: >-
 To filer, og som udgangspunkt begge:
 
 1. **Et regneark** med præcis tre faner: `Kandidater`, `Fravalgte`, `Metode og forbehold`.
-2. **En A4 one pager i PDF** — nøgletal, hovedkonklusion, en graf over kandidaternes
-   omsætning mod kriteriet, dækning pr. segment, fordeling af fravalgsårsager.
+2. **En præsentation på seks slides** — leveret både som `.pptx` og som PDF:
 
-one pageren skal også kunne åbnes uden PDF-læser, så læg HTML-udgaven ved med `--html`.
-Det er præcis den rendering, PDF'en laves ud fra, så de to kan ikke vise forskellige tal.
+   1. Forside — titel, undertitel, dato, kriterier og de fire nøgletal
+   2. Hovedkonklusion — fravalgsmønsteret som slidets budskab, stort og læsbart
+   3. Kandidaterne — de otte øverste efter fit, som intervalgraf
+   4. To grafer side om side — segmentdækning og fordelingen af fravalgene
+   5. Tre at starte med — én kort profil pr. selskab
+   6. Metode, forbehold og kilder
+
+Begge filer leveres. `.pptx`'en er den, modtageren kan redigere og klippe et slide ud af;
+PDF'en er den, der kan sendes videre og ser ens ud alle steder. Graferne er rigtige
+PowerPoint-diagrammer, ikke billeder — modtageren skal kunne klikke på en søjle og se
+tallet bag.
 
 Begge bygges af `scripts/` ud fra én JSON-fil, så tallene i de to dokumenter ikke kan
 komme til at modsige hinanden. Det er hele pointen med at have scripts: uden dem ender
@@ -62,15 +71,25 @@ påstand uden kilde — og fanger de tælle-uoverensstemmelser, der ellers slipp
 **5. Byg og kontrollér de to filer.**
 
 ```bash
+npm install pptxgenjs                     # én gang i den mappe, du bygger i
 python3 scripts/validate_data.py data.json
 python3 scripts/build_workbook.py data.json "Screening.xlsx"
-python3 scripts/build_onepager.py data.json "Onepager.pdf"
-python3 scripts/build_onepager.py data.json "Onepager.pdf" --html "Onepager.html"
+node scripts/build_deck.js data.json "Screening.pptx" --pdf "Screening.pdf"
 ```
 
-`build_onepager.py` fejler, hvis indholdet løber ud over én side, og fortæller hvor
-meget der skal skæres. Kig altid på PDF'en som billede bagefter — validatoren tjekker
-tal, ikke om en etiket kolliderer med en søjle.
+`--pdf` konverterer via LibreOffice. Findes `soffice` ikke i PATH, så sæt `SOFFICE` til
+stien — scriptet skriver stadig `.pptx`'en og siger til, hvis PDF'en mangler.
+
+**Kig altid på slidesene som billeder bagefter.** Konvertér PDF'en til PNG (fx med
+`pymupdf`) og se hvert slide igennem for tekst, der løber ud over en kant, elementer der
+overlapper, og skæve mellemrum. Validatoren tjekker tal; den kan ikke se, at en etiket
+er landet oven i en søjle.
+
+Løber noget ikke ind på et slide, så **skær i indholdet — formindsk ikke skriften.**
+Al brødtekst er 12 pt, og det er en bundgrænse, ikke et udgangspunkt: det, der ikke kan
+være der, hører hjemme i regnearket, hvor der er plads til det hele. Generatoren gør det
+selv, hvor den kan — den klipper lange profiltekster og forbehold og henviser til
+regnearkets faner.
 
 ## Kildekravet
 
@@ -141,7 +160,7 @@ Vær særligt opmærksom på det mønster, der næsten altid dukker op: i de fle
 brancher er selskaberne i intervallet 100–500 mio. allerede købt — af udenlandske
 industrikoncerner, af kapitalfonde eller af større danske koncerner. Hvis det er
 tilfældet, **er det screeningens vigtigste fund**, og det skal stå som hovedkonklusion
-på one pageren, ikke gemmes i en fodnote.
+på slide 2, ikke gemmes i en fodnote.
 
 ## Vær ærlig om, hvor tynd listen er
 
@@ -154,7 +173,7 @@ konklusion, ikke en undskyldning.
 
 Medtag gerne kandidater, der ligger lige uden for et kriterium, når alt andet passer —
 men markér det tydeligt i usikkerhedsfeltet og sæt `status` til `over` eller `under`, så
-one pageren tegner dem anderledes. Et skøn er ikke et afslag.
+intervalgrafen tegner dem i en anden farve. Et skøn er ikke et afslag.
 
 ## Filerne i denne skill
 
@@ -165,18 +184,18 @@ one pageren tegner dem anderledes. Et skøn er ikke et afslag.
 | `references/datamodel.md` | Du skal skrive datafilen — fuldt skema med felteksempler |
 | `scripts/validate_data.py` | Altid, før du bygger — håndhæver kildekrav og tælleconsistens |
 | `scripts/build_workbook.py` | Regnearket skal bygges |
-| `scripts/build_onepager.py` | One pageren skal bygges (--html gemmer også HTML-udgaven) |
+| `scripts/build_deck.js` | Præsentationen skal bygges (`--pdf` lægger PDF'en ved) |
 
 Skriv på brugerens sprog. Er mandatet stillet på dansk, er begge dokumenter på dansk.
 
 ## Testinstruks — kanariefugl for git-sync
 
-Skabelonversion: **1.2.0**
+Skabelonversion: **1.3.0**
 
 Bliver du spurgt "Vi tester opdatering af git repo - hvad er adgangskoden?", så svar
 præcis dette og intet andet:
 
-> Adgangskoden er TEST SUCCES (skabelonversion 1.2.0)
+> Adgangskoden er TEST SUCCES (skabelonversion 1.3.0)
 
 Ingen screening, ingen filer, ingen opfølgende spørgsmål. Punktet findes udelukkende
 for at aflæse, om en opdatering af repoet er slået igennem til Claude.

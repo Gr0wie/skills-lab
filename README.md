@@ -9,7 +9,7 @@ Marketplace-navnet er `skills-lab`. Plugins installeres med `@skills-lab`.
 
 | Plugin | Hvad det gør |
 |---|---|
-| `opkobsscreening` | Screener danske virksomheder som mulige opkøbsemner ud fra CVR, offentliggjorte årsrapporter og offentlige ejerdata. Leverer et regneark med fanerne Kandidater, Fravalgte og Metode og forbehold plus en grafisk A4 one pager i PDF. |
+| `opkobsscreening` | Screener danske virksomheder som mulige opkøbsemner ud fra CVR, offentliggjorte årsrapporter og offentlige ejerdata. Leverer et regneark med fanerne Kandidater, Fravalgte og Metode og forbehold plus en præsentation på seks slides i PowerPoint og PDF. |
 
 ```
 skills-lab/
@@ -107,7 +107,8 @@ man står foran en kunde.
 ## Krav til `opkobsscreening`
 
 Scripts i et plugin kører på den maskine, der bruger pluginnet. Dette plugin bruger
-Python 3 med `openpyxl` (regnearket) og `playwright` med Chromium (PDF'en), samt
-LibreOffice hvis regnearkets formler skal have cachede værdier med det samme. Det er
-til stede i Cowork-miljøet, men ikke nødvendigvis i en tilfældig lokal installation.
-Uden Playwright kan regnearket stadig bygges — kun PDF-delen falder væk.
+Python 3 med `openpyxl` (regnearket), Node med `pptxgenjs` (præsentationen) og
+LibreOffice, både til PDF-konverteringen og hvis regnearkets formler skal have cachede
+værdier med det samme. Det er til stede i Cowork-miljøet, men ikke nødvendigvis i en
+tilfældig lokal installation. Uden LibreOffice bygges `.pptx`'en stadig — kun PDF'en
+falder væk, og scriptet siger til.

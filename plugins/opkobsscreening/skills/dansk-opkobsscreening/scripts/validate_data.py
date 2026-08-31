@@ -147,9 +147,6 @@ def valider(d):
             if ord_ not in tekst:
                 advar(f"metodefanen dækker måske ikke {emne}")
 
-    fk = d.get("footer_kort") or []
-    if fk and len(fk) != 3:
-        advar(f"{len(fk)} footer-kort — one pagerens layout er bygget til præcis 3")
 
 
 def main():
