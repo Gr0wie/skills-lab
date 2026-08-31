@@ -48,6 +48,8 @@ const C = {
   daemp: '6E6C66',   // undertekster, akser
   linje: 'E4E3DE',   // gitterlinjer
   flade: 'F4F4F2',   // felter og chips
+  baand: 'EDECE7',   // kriteriefeltet bag intervalgrafen
+  axis: 'C3C2B7',    // kanten på kriteriefeltet
   hvid: 'FFFFFF',
 };
 const GRUPPE_FARVE = { ejerskab: C.blaa, stoerrelse: C.orange, oevrigt: C.groen };
@@ -169,9 +171,11 @@ function signatur(s, poster, x, y, bredde) {
   for (const p of poster) {
     const tb = tekstbredde(p.tekst);
     if (cx + sw + 0.08 + tb > x + bredde && cx > x) { cx = x; cy += 0.34; }
+    // `kant` er til lyse felter, der ellers ikke kan ses mod den hvide baggrund.
     s.addShape('rect', {
       x: cx, y: cy + 0.055, w: sw, h: sw,
-      fill: { color: p.farve }, line: { color: p.farve, width: 0 },
+      fill: { color: p.farve },
+      line: p.kant ? { color: p.kant, width: 0.75 } : { color: p.farve, width: 0 },
     });
     s.addText(p.tekst, {
       x: cx + sw + 0.08, y: cy, w: tb, h: 0.32, fontFace: FONT, fontSize: MIN_PT,
@@ -332,9 +336,24 @@ function slideKandidater(pres, d, ctx) {
 
   const vis = d.kandidater.slice(0, 8);
   const flere = d.kandidater.length - vis.length;
-  const smax = m.skala_max || Math.ceil(m.oms_max * 1.6);
-  const a = akse(smax, 1);
-  const tik = Math.max(smax / 50, 1);   // punktmarkør for oplyst omsætning
+
+  // Aksen beregnes ud fra det, der faktisk tegnes: nærmeste runde hundrede over det
+  // højeste tal på slidet, dog altid mindst op til kriteriets øvre grænse, så
+  // kriteriefeltet kan tegnes helt. Falder det højeste tal præcis på et hundrede,
+  // lægges et til, så søjlen ikke ender klods op ad aksens ende.
+  const hoejeste = Math.max.apply(null, vis.map(function (k) {
+    return (k.omsaetning !== null && k.omsaetning !== undefined)
+      ? Number(k.omsaetning) : Number((k.skoen || {}).hoej);
+  }).concat([Number(m.oms_max)]));
+  let smax = Math.ceil(hoejeste / 100) * 100;
+  if (smax <= hoejeste) smax += 100;
+  const skr = skridt(smax);
+
+  // Punktmarkøren for oplyst omsætning skal læses som ét tal, ikke som et spænd.
+  // Den er derfor under en procent af aksen bred — en tynd streg, ikke en søjle.
+  // Intervalsøjler får til gengæld en bundbredde, så et smalt spænd ikke forsvinder.
+  const markoer = smax / 150;
+  const minSpaend = smax / 80;
 
   overskrift(s,
     'De ' + vis.length + ' stærkeste kandidater',
@@ -348,13 +367,13 @@ function slideKandidater(pres, d, ctx) {
     if (k.omsaetning !== null && k.omsaetning !== undefined) {
       const v = Number(k.omsaetning);
       kat.push(k.navn + ' · ' + tal(v) + ' oplyst');
-      afs.push(Math.max(0, v - tik / 2));
-      inde.push(0); ude.push(0); oplyst.push(tik);
+      afs.push(Math.max(0, v - markoer / 2));
+      inde.push(0); ude.push(0); oplyst.push(markoer);
     } else {
       const lav = Number(sk.lav), hoej = Number(sk.hoej);
       kat.push(k.navn + ' · ' + tal(lav) + '–' + tal(hoej));
       afs.push(lav);
-      const spaend = Math.max(hoej - lav, tik);
+      const spaend = Math.max(hoej - lav, minSpaend);
       if ((sk.status || 'inde') === 'inde') { inde.push(spaend); ude.push(0); }
       else { inde.push(0); ude.push(spaend); }
       oplyst.push(0);
@@ -372,32 +391,62 @@ function slideKandidater(pres, d, ctx) {
 
   const serier = [{ name: 'afsæt', labels: kat, values: afs }];
   const farver = ['transparent'];
-  const sign = [];
+  const sign = [{
+    farve: C.baand, kant: C.axis,
+    tekst: 'Kriteriet ' + tal(m.oms_min) + '–' + tal(m.oms_max) + ' mio. DKK',
+  }];
   if (inde.some(function (v) { return v > 0; })) {
-    serier.push({ name: 'Skønnet interval inden for kriteriet', labels: kat, values: inde });
+    serier.push({ name: 'Skøn inden for kriteriet', labels: kat, values: inde });
     farver.push(C.blaa);
-    sign.push({ farve: C.blaa, tekst: 'Skønnet interval inden for kriteriet' });
+    sign.push({ farve: C.blaa, tekst: 'Skøn inden for kriteriet' });
   }
   if (ude.some(function (v) { return v > 0; })) {
-    serier.push({ name: 'Helt eller delvis uden for kriteriet', labels: kat, values: ude });
+    serier.push({ name: 'Skøn uden for kriteriet', labels: kat, values: ude });
     farver.push(C.orange);
-    sign.push({ farve: C.orange, tekst: 'Helt eller delvis uden for kriteriet' });
+    sign.push({ farve: C.orange, tekst: 'Skøn uden for kriteriet' });
   }
   if (oplyst.some(function (v) { return v > 0; })) {
-    serier.push({ name: 'Omsætning oplyst i årsrapporten', labels: kat, values: oplyst });
+    serier.push({ name: 'Omsætning oplyst', labels: kat, values: oplyst });
     farver.push(C.tekst);
-    sign.push({ farve: C.tekst, tekst: 'Omsætning oplyst i årsrapporten' });
+    sign.push({ farve: C.tekst, tekst: 'Omsætning oplyst' });
   }
 
+  // Plotfeltet låses fast med `layout`, så vi selv kan regne ud, hvor på slidet en
+  // værdi på x-aksen lander. Uden det placerer PowerPoint plotfeltet efter, hvor
+  // brede kategorietiketterne tilfældigvis blev, og så kan kriteriefeltet ikke
+  // tegnes det rigtige sted. Tallene er andele af diagrammets egen ramme.
+  const gx = M, gy = 1.66, gw = CW, gh = 4.5;
+  const L = { x: 0.30, y: 0.02, w: 0.685, h: 0.855 };
+  const px = gx + L.x * gw, pw = L.w * gw;
+  const py = gy + L.y * gh, ph = L.h * gh;
+  const vedVaerdi = function (v) { return px + (v / smax) * pw; };
+
+  // Kriteriefeltet tegnes før diagrammet, så det ligger bagved. Diagrammet har
+  // hverken baggrunds- eller plotfarve, så feltet kan ses igennem.
+  const bLo = vedVaerdi(Number(m.oms_min)), bHi = vedVaerdi(Number(m.oms_max));
+  s.addShape('rect', {
+    x: bLo, y: py, w: bHi - bLo, h: ph,
+    fill: { color: C.baand }, line: { color: C.baand, width: 0 },
+  });
+  [bLo, bHi].forEach(function (bx) {
+    s.addShape('rect', {
+      x: bx, y: py, w: 0.008, h: ph,
+      fill: { color: C.axis }, line: { color: C.axis, width: 0 },
+    });
+  });
+
   s.addChart(pres.ChartType.bar, serier, Object.assign({}, GRAF_BASIS, {
-    x: M, y: 1.66, w: CW, h: 4.5,
+    x: gx, y: gy, w: gw, h: gh,
+    layout: L,
+    chartArea: { fill: {} },      // gennemsigtig, så kriteriefeltet kan ses
+    plotArea: { fill: {} },
     barDir: 'bar',
     barGrouping: 'stacked',
-    barGapWidthPct: 55,
+    barGapWidthPct: 200,          // tynde søjler med luft imellem
     chartColors: farver,
     valAxisMinVal: 0,
-    valAxisMaxVal: a.maks,
-    valAxisMajorUnit: a.skridt,
+    valAxisMaxVal: smax,
+    valAxisMajorUnit: skr,
     valAxisLabelFormatCode: '#,##0',
     showValue: false,
   }));

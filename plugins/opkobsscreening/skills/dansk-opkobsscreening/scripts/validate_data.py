@@ -43,7 +43,6 @@ def valider(d):
         advar(f"kun {len(kand)} kandidater — er listen for tynd, så forklar hvorfor i metodefanen")
 
     cvr_set = {}
-    hoejeste_skoen = 0
     for i, k in enumerate(kand, 1):
         nav = k.get("navn") or f"kandidat #{i}"
         for f in PAAKRAEVET_KANDIDAT:
@@ -70,13 +69,9 @@ def valider(d):
             else:
                 if sk["lav"] > sk["hoej"]:
                     fejl(f"{nav}: skoen.lav er større end skoen.hoej")
-                hoejeste_skoen = max(hoejeste_skoen, sk["hoej"])
                 if "÷" not in k["usikkerheder"] and "pr. ansat" not in k["usikkerheder"]:
                     advar(f"{nav}: skønnet ser ud til kun at bygge på én metode — "
                           f"anfør både bruttomargin og omsætning pr. ansat")
-        else:
-            hoejeste_skoen = max(hoejeste_skoen, oms)
-
         st = sk.get("status")
         if st and st not in {"inde", "over", "under"}:
             fejl(f"{nav}: skoen.status '{st}' skal være inde, over eller under")
@@ -86,10 +81,6 @@ def valider(d):
             if lav is not None and hoej is not None and (hoej < lo or lav > hi):
                 fejl(f"{nav}: markeret 'inde', men intervallet {lav}–{hoej} ligger uden for "
                      f"kriteriet {lo}–{hi}")
-
-    if meta.get("skala_max") and hoejeste_skoen > meta["skala_max"]:
-        fejl(f"meta.skala_max ({meta['skala_max']}) er lavere end det højeste tal i grafen "
-             f"({hoejeste_skoen}) — søjlen ville løbe ud over aksen")
 
     frav = d.get("fravalgte") or []
     if not (5 <= len(frav) <= 10):

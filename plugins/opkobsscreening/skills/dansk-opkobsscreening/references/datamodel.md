@@ -27,15 +27,18 @@ Alle beløb i mio. DKK som tal (ikke tekst, ikke tusinder).
   "kriterier": ["Omsætning 100–500 mio. DKK", "Dansk hovedsæde", "Ikke børsnoteret", "Ikke koncernejet", "Ikke kapitalfondsejet", "Bonus: tegn på generationsskifte"],
   "oms_min": 100,
   "oms_max": 500,
-  "skala_max": 800,
   "antal_vurderet": 80,
   "hovedkonklusion": "Markedet er allerede konsolideret. <b>Ejerforhold — ikke størrelse — er den hyppigste årsag til fravalg.</b> …",
   "kilder_linje": "Kilder: CVR / datacvr.virk.dk · offentliggjorte årsrapporter gengivet på proff.dk · ejerdata via ownr.dk · …"
 }
 ```
 
-`skala_max` sætter x-aksens maksimum på intervalgrafen (slide 3). Vælg et rundt tal over det højeste
-skøn. `hovedkonklusion` må indeholde `<b>` og `&nbsp;` — intet andet markup.
+Intervalgrafens x-akse sættes ikke i datafilen. Slide 3 beregner den selv som nærmeste
+runde hundrede over det højeste tal, der tegnes — dog altid mindst op til `oms_max`, så
+kriteriefeltet kan vises helt. Det er med vilje: en skala, der skrives i hånden, kommer
+før eller siden til at ligge under et skøn, og så løber en søjle ud over aksen.
+
+`hovedkonklusion` må indeholde `<b>` og `&nbsp;` — intet andet markup.
 
 ## kandidater
 
