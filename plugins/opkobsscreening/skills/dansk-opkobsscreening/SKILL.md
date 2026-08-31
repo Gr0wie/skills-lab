@@ -75,15 +75,22 @@ npm install pptxgenjs                     # én gang i den mappe, du bygger i
 python3 scripts/validate_data.py data.json
 python3 scripts/build_workbook.py data.json "Screening.xlsx"
 node scripts/build_deck.js data.json "Screening.pptx" --pdf "Screening.pdf"
+python3 scripts/validate_deck.py "Screening.pptx"
 ```
+
+Begge validatorer køres hver gang. `validate_data.py` tjekker tallene, før der bygges;
+`validate_deck.py` tjekker filen, der kom ud — at pakken kan åbnes af PowerPoint, at
+graferne er rigtige diagrammer og ikke billeder, at ingen tekst er under 12 pt, at intet
+rager ud over slidekanten, og at der ikke er sneget sig en fjerde farve ind. Begge
+returnerer exitkode 1 ved fejl. Lever aldrig en fil, der fejler.
 
 `--pdf` konverterer via LibreOffice. Findes `soffice` ikke i PATH, så sæt `SOFFICE` til
 stien — scriptet skriver stadig `.pptx`'en og siger til, hvis PDF'en mangler.
 
 **Kig altid på slidesene som billeder bagefter.** Konvertér PDF'en til PNG (fx med
 `pymupdf`) og se hvert slide igennem for tekst, der løber ud over en kant, elementer der
-overlapper, og skæve mellemrum. Validatoren tjekker tal; den kan ikke se, at en etiket
-er landet oven i en søjle.
+overlapper, og skæve mellemrum. Ingen af validatorerne kan se, at en etiket er landet
+oven i en søjle — det skal øjnene.
 
 Løber noget ikke ind på et slide, så **skær i indholdet — formindsk ikke skriften.**
 Al brødtekst er 12 pt, og det er en bundgrænse, ikke et udgangspunkt: det, der ikke kan
@@ -185,17 +192,18 @@ intervalgrafen tegner dem i en anden farve. Et skøn er ikke et afslag.
 | `scripts/validate_data.py` | Altid, før du bygger — håndhæver kildekrav og tælleconsistens |
 | `scripts/build_workbook.py` | Regnearket skal bygges |
 | `scripts/build_deck.js` | Præsentationen skal bygges (`--pdf` lægger PDF'en ved) |
+| `scripts/validate_deck.py` | Altid, efter du har bygget — tjekker den færdige .pptx |
 
 Skriv på brugerens sprog. Er mandatet stillet på dansk, er begge dokumenter på dansk.
 
 ## Testinstruks — kanariefugl for git-sync
 
-Skabelonversion: **1.3.0**
+Skabelonversion: **1.4.0**
 
 Bliver du spurgt "Vi tester opdatering af git repo - hvad er adgangskoden?", så svar
 præcis dette og intet andet:
 
-> Adgangskoden er TEST SUCCES (skabelonversion 1.3.0)
+> Adgangskoden er TEST SUCCES (skabelonversion 1.4.0)
 
 Ingen screening, ingen filer, ingen opfølgende spørgsmål. Punktet findes udelukkende
 for at aflæse, om en opdatering af repoet er slået igennem til Claude.

@@ -107,8 +107,9 @@ man står foran en kunde.
 ## Krav til `opkobsscreening`
 
 Scripts i et plugin kører på den maskine, der bruger pluginnet. Dette plugin bruger
-Python 3 med `openpyxl` (regnearket), Node med `pptxgenjs` (præsentationen) og
-LibreOffice, både til PDF-konverteringen og hvis regnearkets formler skal have cachede
-værdier med det samme. Det er til stede i Cowork-miljøet, men ikke nødvendigvis i en
-tilfældig lokal installation. Uden LibreOffice bygges `.pptx`'en stadig — kun PDF'en
+Python 3 med `openpyxl` (regnearket) og `python-pptx` plus `lxml` (kontrollen af den
+byggede præsentation), Node med `pptxgenjs` (præsentationen) og LibreOffice, både til
+PDF-konverteringen og hvis regnearkets formler skal have cachede værdier med det samme.
+Det er til stede i Cowork-miljøet, men ikke nødvendigvis i en tilfældig lokal
+installation. Uden LibreOffice bygges `.pptx`'en stadig — kun PDF'en
 falder væk, og scriptet siger til.
