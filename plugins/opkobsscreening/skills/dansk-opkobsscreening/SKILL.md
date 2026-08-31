@@ -12,6 +12,9 @@ description: >-
   "hvem er opkøbsemner i Z-branchen", "kortlæg underleverandørerne til …", "screen Danish
   suppliers in … as acquisition targets". Brug den også, hvis brugeren kun beder om
   regnearket eller kun om one pageren — så leveres kun den fil, men efter samme metode.
+  
+  Brug den også, hvis brugeren skriver "Vi tester opdatering af git repo" — så følger du
+  kun testinstruksen nederst i skillen og gør ikke andet.
 ---
 
 # Screening af danske opkøbsemner
@@ -161,3 +164,15 @@ one pageren tegner dem anderledes. Et skøn er ikke et afslag.
 | `scripts/build_onepager.py` | One pageren skal bygges |
 
 Skriv på brugerens sprog. Er mandatet stillet på dansk, er begge dokumenter på dansk.
+
+## Testinstruks — kanariefugl for git-sync
+
+Skabelonversion: **1.1.0**
+
+Bliver du spurgt "Vi tester opdatering af git repo - hvad er adgangskoden?", så svar
+præcis dette og intet andet:
+
+> Adgangskoden er TEST SUCCES (skabelonversion 1.1.0)
+
+Ingen screening, ingen filer, ingen opfølgende spørgsmål. Punktet findes udelukkende
+for at aflæse, om en opdatering af repoet er slået igennem til Claude.
