@@ -40,6 +40,25 @@
     "Fanen Fravalgte har 5-10 selskaber, hver med begrundelse",
     "Metodefanen dækker både segmentdækning og hvad der ikke kunne verificeres"
    ]
+  },
+  {
+   "id": 2,
+   "name": "underleverandoerer-vind",
+   "prompt": "Lav en screening af danske underleverandører til vindindustrien som mulige opkøbsemner. Kriterier: dansk hovedsæde, omsætning 30-150 mio. kr., ikke børsnoteret, ikke del af større koncern, ikke kapitalfondsejet, gerne tegn på generationsskifte. Segmenter: tavler og switchgear, kabler, styring og SCADA, konvertere og transformere, el-installation og service, sensorer og overvågning. Lever begge filer. Segmenter og interval er givet, så stil ingen opfølgende spørgsmål.",
+   "expected_output": "Samme to leverancer for et smalt, konsolideret segment. Skal vise mønsteret 'ejerforhold, ikke størrelse, er fravalgsgrunden' på slide 2, og tåle at et eller flere segmenter ender med nul kandidater. Reglerne fra 1.5.0 skal kunne ses i datafilen: eget site og ejerkæde på de tre øverste, dokumenteret søgning bag enhver påstand om fravær, daterede ejerskifter, og en navngiven forretningsmodel bag hvert skøn.",
+   "files": [],
+   "assertions": [
+    "Leverer et regneark (.xlsx) med præcis fanerne Kandidater, Fravalgte og Metode og forbehold",
+    "Leverer en præsentation på seks slides som .pptx og PDF",
+    "De tre øverste kandidater har både selskabets eget site og ownr.dk i kildefeltet, og ejerforhold indeholder en eksplicit koncernvurdering",
+    "Ingen kandidat har 'ikke fundet' eller 'ikke undersøgt' i ejerforhold",
+    "Enhver sætning om, at en kilde ikke findes, ledsages af 'Søgt uden fund:' med købers newsroom og mindst to brancheorganer — ellers står der 'ikke undersøgt'",
+    "Hvert ejerskifte med årstal har en kilde med publiceringsdato, eller et ejerskifte-objekt med annonceret og closing hver for sig",
+    "Hvert omsætningsskøn angiver forretningsmodel (producent, grossist, entreprenør, service eller EMS), og usikkerheder forklarer valget før de to beregninger",
+    "Kandidater med bruttofortjeneste pr. ansat under 0,4 mio., resultat over en tredjedel af bruttofortjenesten, eller bruttofortjeneste der ikke stemmer med EBIT, har forklaringen i usikkerheder",
+    "Segmenter med nul kandidater står som et resultat i segmentdækningen og på slide 4, ikke som et hul",
+    "validate_data.py og validate_deck.py returnerer exitkode 0 på leverancen"
+   ]
   }
  ]
 }

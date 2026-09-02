@@ -71,6 +71,17 @@ Det, folk glemmer, er versionsbumpet. Uden det ser ingen din ændring.
 3. Commit og push
 4. Brugerne henter med `/plugin marketplace update`, eller får det via baggrundsopdatering
 
+## Test af validatoren
+
+```bash
+python3 plugins/opkobsscreening/skills/dansk-opkobsscreening/scripts/test_validate_data.py
+```
+
+Kører `validate_data.py` mod to opdigtede datafiler i `evals/fixtures/`: én, der skal
+fejle på hver regel, og én, der skal bestå. Ret en regel, og kør testen — den er
+det, der beviser, at validatoren ikke er blevet blind igen. Hvad hver version har
+ændret, står i `CHANGELOG.md`.
+
 ## Den trinvise gennemgang
 
 Historikken i dette repo er lavet, så man kan se en skill vokse. Tre commits, tre tags:

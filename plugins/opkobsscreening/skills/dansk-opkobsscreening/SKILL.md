@@ -64,9 +64,26 @@ bestyrelse siger intet om, hvem der ejer selskabet. Læs femårsoversigten, ikke
 seneste år; ét regnskabsår er ikke en trend, og du vil ofte opdage, at et selskab havde
 et katastrofeår, som seneste års tal skjuler.
 
+**Før et selskab kan stå blandt de tre øverste** — dem, slide 5 bygges på — skal både
+selskabets eget site (forside, om-side og sidefod) og ejerkæden på ownr.dk være læst, og
+begge skal stå i `kilde`. Et procentinterval i ejerregistret er et *indicium*; selskabets
+egen sætning "A company in the X Group" i sidefoden er et *udsagn*, og udsagnet vinder.
+Skriv koncernvurderingen eksplicit i `ejerforhold` — "ikke del af nogen koncern ifølge
+selskabets egne sider og ejerkæden" — og sæt `hjemmeside` på hver kandidat. Validatoren
+afviser en top tre uden.
+
+**Deler du arbejdet ud på underagenter, så giv dem to regler.** Et opbrugt søgebudget
+rapporteres tilbage som "ikke undersøgt: budget opbrugt efter N kald" — aldrig som en
+konklusion om, at noget ikke findes. Og verifikation af ejerskifter får sit eget,
+reserverede budget, så den ikke er det, der først løber tør.
+
 **4. Skriv datafilen.** Én JSON efter skemaet i `references/datamodel.md`. Kør
 `scripts/validate_data.py` på den. Validatoren håndhæver skillens kerneregel — ingen
 påstand uden kilde — og fanger de tælle-uoverensstemmelser, der ellers slipper igennem.
+Siden 1.5.0 kontrollerer den også ejerforhold på de tre øverste, dokumenteret søgning bag
+enhver påstand om fravær, daterede ejerskifter, forretningsmodel bag hvert skøn og tre
+regnskabsmæssige sanity-checks. De sidste er "ret eller anerkend": et tal, der ser
+forkert ud, må stå, hvis `usikkerheder` forklarer hvorfor.
 
 **5. Byg og kontrollér de to filer.**
 
@@ -105,8 +122,18 @@ Screeningen står og falder med, at læseren kan efterprøve hvert tal. Derfor:
 - **Ingen kilde, ingen påstand.** Hvert faktuelt felt skal kunne føres tilbage til CVR,
   en offentliggjort årsrapport, selskabets egen hjemmeside, en brancheorganisation eller
   en pressemeddelelse. `kilde`-feltet er obligatorisk, og validatoren afviser filen uden.
-- **Kan du ikke finde noget, så skriv "ikke fundet".** Udfyld aldrig et hul selv. Et
-  ærligt hul er brugbart; et opdigtet tal ødelægger hele dokumentet.
+- **To ord for et hul, og de betyder hver sit.** `ikke fundet` betyder, at der blev
+  søgt, og intet kom frem — og så skal `kilde` vise, hvor der blev søgt:
+  `Søgt uden fund: <købers newsroom>, <mindst to brancheorganer>`. `ikke undersøgt`
+  betyder, at der ikke blev søgt, fx fordi et site blokerede eller budgettet var brugt.
+  Udfyld aldrig et hul selv. Et ærligt hul er brugbart; et opdigtet tal ødelægger hele
+  dokumentet — og "ingen pressemeddelelse" skrevet uden at have søgt er et opdigtet
+  fravær. Validatoren afviser det.
+- **Et ejerskifte har to datoer.** Annoncering og closing kan ligge i hver sit år, og
+  den, der kun får det ene tal, læser det forkert. Skriv begge, når begge findes, mærk
+  hvilken der er hvilken, og giv hver dato sin kilde med publiceringsdato —
+  "kapwatch.dk, 21.04.2026", ikke "kapwatch.dk". Datamodellen har et `ejerskifte`-objekt
+  til det.
 - **Angiv altid regnskabsår.** "Omsætning 337 mio." uden år er ubrugeligt, når to af
   selskaberne har forskudt regnskabsår.
 - **Brug ikke betalingsdatabaser** (Bisnode, Experian, PitchBook, Orbis), medmindre
@@ -129,12 +156,22 @@ også efter, om selskabet oplyste omsætning i et tidligere år i femårsoversig
 du selskabets egen bruttomargin i stedet for en branchetypisk, og skønnet bliver
 markant bedre.
 
+**Afgør forretningsmodellen, før du vælger margin.** Producent, grossist, entreprenør,
+service eller EMS — marginen og omsætningen pr. ansat er forskellige for hver, og et
+selskab med få ansatte i Danmark og produktionen i udlandet opfører sig som grossist,
+uanset hvad det kalder sig. Skriv modellen i `skoen.forretningsmodel`, og sig i
+`usikkerheder`, hvorfor den er valgt, før de to beregninger. Validatoren afviser et
+skøn uden model.
+
 Faktorer, worked examples og hvad der går galt: `references/omsatningsskon.md`.
 
 ## Faldgruber der koster tid
 
 Disse har alle kostet en fejl i praksis, og de er værd at kende på forhånd:
 
+- **Sidefoden siger det, ejerkæden ikke siger.** "A company in the X Group" nederst på
+  selskabets eget site afgør sagen, uanset hvilket procentinterval ejerregistret viser.
+  Læs forside, om-side og sidefod, før du fører et selskab videre.
 - **Navneskift skjuler opkøb.** Et selskab, der er blevet solgt, skifter tit navn, mens
   det gamle navn består som binavn. Søg på CVR-nummer, ikke navn, når du kontrollerer
   noget, og tjek binavne, når et selskab ser ud til at være uafhængigt.
@@ -153,7 +190,8 @@ Disse har alle kostet en fejl i praksis, og de er værd at kende på forhånd:
   eller "StandbyCo IX ApS", er finansielle ejere, indtil andet er bevist.
 - **Resultat større end en tredjedel af bruttofortjenesten** kommer sjældent fra driften.
   Det peger typisk på resultatandele fra dattervirksomheder — skriv det som en
-  usikkerhed frem for at lade tallet stå og se for godt ud.
+  usikkerhed frem for at lade tallet stå og se for godt ud. Validatoren afviser det nu,
+  medmindre `usikkerheder` nævner resultatandelen.
 
 ## Fanen "Fravalgte" er lige så vigtig som kandidatlisten
 
@@ -193,17 +231,18 @@ intervalgrafen tegner dem i en anden farve. Et skøn er ikke et afslag.
 | `scripts/build_workbook.py` | Regnearket skal bygges |
 | `scripts/build_deck.js` | Præsentationen skal bygges (`--pdf` lægger PDF'en ved) |
 | `scripts/validate_deck.py` | Altid, efter du har bygget — tjekker den færdige .pptx |
+| `scripts/test_validate_data.py` | Du har rettet en regel i validatoren — testen mod `evals/fixtures/` viser, om den stadig fanger alle fem |
 
 Skriv på brugerens sprog. Er mandatet stillet på dansk, er begge dokumenter på dansk.
 
 ## Testinstruks — kanariefugl for git-sync
 
-Skabelonversion: **1.4.0**
+Skabelonversion: **1.5.0**
 
 Bliver du spurgt "Vi tester opdatering af git repo - hvad er adgangskoden?", så svar
 præcis dette og intet andet:
 
-> Adgangskoden er TEST SUCCES (skabelonversion 1.4.0)
+> Adgangskoden er TEST SUCCES (skabelonversion 1.5.0)
 
 Ingen screening, ingen filer, ingen opfølgende spørgsmål. Punktet findes udelukkende
 for at aflæse, om en opdatering af repoet er slået igennem til Claude.

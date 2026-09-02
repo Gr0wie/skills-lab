@@ -10,11 +10,18 @@ frasorterer typisk halvdelen af bruttolisten. Regnskabstal på et selskab, der v
 at være ejet af Lindab, er spildt arbejde.
 
 1. Find CVR-nummer og ejerkæde
-2. Er ejeren en udenlandsk koncern, en fond eller en større dansk koncern → fravalgt,
+2. Læs selskabets eget site: forside, om-side og sidefod. "A company in the X Group"
+   i sidefoden afgør sagen, uanset hvad ejerkæden viser
+3. Er ejeren en udenlandsk koncern, en fond eller en større dansk koncern → fravalgt,
    notér begrundelse og gå videre
-3. Ellers: hent femårs-regnskabstal
-4. Er selskabet i intervallet → hent forretningsbeskrivelse fra egen hjemmeside
-5. Er ejerskiftet afgørende for fravalget → find en pressekilde, der bekræfter det
+4. Ellers: hent femårs-regnskabstal
+5. Er selskabet i intervallet → hent forretningsbeskrivelse fra egen hjemmeside, og afgør
+   forretningsmodellen (producent, grossist, entreprenør, service, EMS), før du skønner
+   omsætning
+6. Er ejerskiftet afgørende for fravalget → find en pressekilde **med dato**, der
+   bekræfter det. Skriv "ikke fundet" først, når købers eget newsroom og mindst to
+   brancheorganer er søgt — og skriv i kilden, hvor der blev søgt. Blokerer et site, eller
+   er søgebudgettet brugt, hedder det "ikke undersøgt"
 
 ## De fire kilder
 
@@ -59,6 +66,11 @@ Læs listen af ultimative ejere som et signal om ejertype, ikke kun som navne:
   investorgruppe. Prøv at finde en pressekilde; kan du ikke, så skriv at ejerforholdet
   ikke er verificeret, i stedet for at gætte.
 
+Et procentinterval er et indicium, ikke et udsagn. Står der 10–14,99 % til et
+udenlandsk selskab ved siden af tre danske personer, kan selskabet stadig være
+koncernejet gennem en anden struktur — det er sidefoden og om-siden på selskabets eget
+site, der afgør det, og de skal være læst, før et selskab kan stå blandt de tre øverste.
+
 ### Pressekilder — når et ejerskifte afgør sagen
 Søg på selskabsnavn plus "opkøb", "overtager", "kapitalfond" eller ejerens navn. De
 danske kilder, der oftest har historien: energy-supply.dk, kapwatch.dk, borsen.dk,
@@ -66,6 +78,13 @@ finans.dk, licitationen.dk, medwatch.dk, fødevarewatch.dk — plus køberens eg
 pressemeddelelse (news.cision.com, via.ritzau.dk, selskabets investor-side). En
 pressemeddelelse fra køberen er den stærkeste kilde, du kan få, fordi den er
 førstehåndsudsagn.
+
+**Minimum, før du må skrive, at en kilde ikke findes:** købers eget newsroom og mindst
+to brancheorganer er søgt, og kilden viser det — `Søgt uden fund: kkgroup.com/news,
+energy-supply.dk, kapwatch.dk`. Er søgningen ikke gjort, eller blokerede et site, er
+det rigtige ord "ikke undersøgt". Et opbrugt søgebudget er ikke et udtømt marked.
+Notér altid publiceringsdatoen sammen med kilden, og skriv annoncering og closing hver
+for sig, når begge findes.
 
 ## Brancheorganisationers medlemslister
 
@@ -85,7 +104,8 @@ du leder efter.
 ## Hvad hver kilde ikke kan
 
 - **proff.dk** kender ikke ejerforhold ud over nærmeste moderselskab.
-- **ownr.dk** viser ikke regnskabstal.
+- **ownr.dk** viser ikke regnskabstal, og intervallerne siger ikke, om selskabet er del
+  af en koncern — det gør selskabets egen sidefod.
 - **Brancheorganisationer** siger intet om størrelse eller ejerskab.
 - **Ingen af dem** fortæller, hvor stor en andel af omsætningen der er relevant for
   mandatet. Det står kun i selskabets egen kommunikation, og som regel ikke i tal. Skriv

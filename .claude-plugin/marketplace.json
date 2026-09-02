@@ -6,14 +6,14 @@
   },
   "metadata": {
     "description": "Martins arbejdsbord for Claude-skills. Plugins herfra installeres med @skills-lab.",
-    "version": "1.4.0"
+    "version": "1.5.0"
   },
   "plugins": [
     {
       "name": "opkobsscreening",
       "source": "./plugins/opkobsscreening",
       "description": "Screener danske virksomheder som mulige opkøbsemner ud fra CVR, offentliggjorte årsrapporter og offentlige ejerdata, og leverer et regneark med tre faner plus en præsentation på seks slides i PowerPoint og PDF.",
-      "version": "1.4.0",
+      "version": "1.5.0",
       "author": {
         "name": "Gr0wie"
       },

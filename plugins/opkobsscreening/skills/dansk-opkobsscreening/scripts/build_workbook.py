@@ -20,7 +20,8 @@ BORDER = Border(left=thin, right=thin, top=thin, bottom=thin)
 
 KOL_KANDIDAT = ["Selskabsnavn", "CVR", "Segment", "By", "Omsætning", "Bruttofortjeneste",
                 "Regnskabsår", "Antal ansatte", "Egenkapital", "Ejerforhold",
-                "Kort beskrivelse af forretningen", "Vurdering af fit", "Usikkerheder", "Kilde"]
+                "Kort beskrivelse af forretningen", "Vurdering af fit", "Usikkerheder", "Kilde",
+                "Hjemmeside"]
 KOL_FRAVALGT = ["Selskabsnavn", "CVR", "Segment", "Nøgletal (seneste offentliggjorte)",
                 "Begrundelse for fravalg", "Kilde"]
 
@@ -33,6 +34,36 @@ def style_header(ws, n, row=1):
         cell.alignment = Alignment(vertical="center", horizontal="left", wrap_text=True)
         cell.border = BORDER
     ws.row_dimensions[row].height = 32
+
+
+def dato(iso):
+    """2026-04-20 -> 20.04.2026; alt andet uændret."""
+    try:
+        y, m, d = str(iso).split("-")
+        return f"{d}.{m}.{y}"
+    except ValueError:
+        return str(iso)
+
+
+def begrundelse_med_ejerskifte(f):
+    """Skriver et 'ejerskifte'-objekt ind under begrundelsen, så begge datoer og deres
+    kilder står i regnearket — annoncering og closing hver for sig."""
+    tekst = f.get("begrundelse") or ""
+    e = f.get("ejerskifte")
+    if not isinstance(e, dict):
+        return tekst
+    dele = []
+    if e.get("annonceret"):
+        dele.append(f"annonceret {dato(e['annonceret'])}"
+                    + (f" ({e['kilde_annoncering']})" if e.get("kilde_annoncering") else ""))
+    if e.get("closing"):
+        dele.append(f"closing {dato(e['closing'])}"
+                    + (f" ({e['kilde_closing']})" if e.get("kilde_closing") else ""))
+    if e.get("koeber"):
+        dele.append(f"køber: {e['koeber']}")
+    if e.get("saelgers_andel_efter"):
+        dele.append(f"sælgers andel efter: {e['saelgers_andel_efter']}")
+    return tekst + ("\n\nEjerskifte: " + "; ".join(dele) if dele else "")
 
 
 def num(ws, r, c, v, fmt):
@@ -64,6 +95,7 @@ def build(d, ud):
         for col, felt in [(10, "ejerforhold"), (11, "beskrivelse"), (12, "fit"),
                           (13, "usikkerheder"), (14, "kilde")]:
             ws.cell(r, col, k[felt])
+        ws.cell(r, 15, k.get("hjemmeside") or "ikke undersøgt")
 
     n = len(d["kandidater"]) + 1
     for r in range(2, n + 1):
@@ -82,10 +114,10 @@ def build(d, ud):
                 if ws.cell(r, c).fill.fgColor.rgb in (None, "00000000"):
                     ws.cell(r, c).fill = PatternFill("solid", fgColor=LIGHT)
         ws.row_dimensions[r].height = 150
-    for i, w in enumerate([30, 11, 30, 22, 14, 16, 20, 11, 14, 46, 46, 46, 56, 46], 1):
+    for i, w in enumerate([30, 11, 30, 22, 14, 16, 20, 11, 14, 46, 46, 46, 56, 46, 24], 1):
         ws.column_dimensions[get_column_letter(i)].width = w
     ws.freeze_panes = "C2"
-    ws.auto_filter.ref = f"A1:N{n}"
+    ws.auto_filter.ref = f"A1:{get_column_letter(len(KOL_KANDIDAT))}{n}"
 
     # ---------------- Fravalgte ----------------
     ws2 = wb.create_sheet("Fravalgte")
@@ -93,7 +125,7 @@ def build(d, ud):
     style_header(ws2, len(KOL_FRAVALGT))
     for f in d.get("fravalgte", []):
         ws2.append([f.get("navn"), str(f.get("cvr", "—")), f.get("segment"),
-                    f.get("noegletal", "ikke opgjort"), f.get("begrundelse"), f.get("kilde")])
+                    f.get("noegletal", "ikke opgjort"), begrundelse_med_ejerskifte(f), f.get("kilde")])
     n2 = len(d.get("fravalgte", [])) + 1
     for r in range(2, n2 + 1):
         for c in range(1, len(KOL_FRAVALGT) + 1):

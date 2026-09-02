@@ -16,6 +16,33 @@ hører til på listen.
 Gæt aldrig et tal uden at markere det som skøn. Et markeret skøn er brugbart; et
 umarkeret skøn er en fejl, der forplanter sig hele vejen til en indikation.
 
+## Afgør forretningsmodellen først
+
+Marginerne nedenfor er kun rigtige for den model, selskabet faktisk driver. Samme
+bruttofortjeneste betyder 60 mio. i omsætning for en producent og 250 mio. for en
+grossist. Derfor er `skoen.forretningsmodel` obligatorisk, og `usikkerheder` skal sige,
+hvorfor modellen er valgt, før de to beregninger står.
+
+| Model | Kendetegn | Brug rækkerne |
+|---|---|---|
+| `producent` | Egen produktion i Danmark; de fleste ansatte i det danske selskab; produktionsenheder (P-numre) i CVR; vareforbrug og bruttofortjeneste i samme størrelsesorden | Produktion / produktion med høj materialeandel |
+| `grossist` | Få ansatte i Danmark i forhold til koncernen; produktionen ligger hos partnere eller i udlandet; højt vareforbrug i forhold til bruttofortjenesten; "forhandler", "distributør", "leverandør af" på eget site | Distribution |
+| `entreprenoer` | Projekter, entreprisesummer, underentreprenører; bruttofortjenesten svinger med projektporteføljen | EPC og anlægsbyggeri / teknisk entreprise og installation |
+| `service` | Sælger timer, ikke varer; lavt vareforbrug; høj bruttomargin | Servicevirksomhed uden materialesalg |
+| `ems` | Kontraktproduktion af elektronik for andres varemærker; høj materialeandel, lav margin, kunden ejer designet | Produktion med høj materialeandel |
+
+Sådan afgør du det, når selskabet ikke selv siger det: tæl ansatte i det danske
+selskab mod koncernen (14 her og 400 i koncernen er en grossist, uanset hvad forsiden
+siger); se efter produktionsenheder i CVR; sammenlign vareforbrug med bruttofortjeneste,
+hvor årsrapporten oplyser begge; og læs, hvad selskabet selv skriver om, hvor tingene
+laves.
+
+**Eksempel:** En transformerproducent med bruttofortjeneste 21 mio. og 14 ansatte i det
+danske selskab, men over 400 ansatte i koncernen og produktionen i udlandet. De to
+metoder gav 35–56 og 55–89 mio., og uenigheden blev rapporteret — men ikke forklaret.
+Forklaringen var, at selskabet opfører sig som grossist, og så gælder grossistens tal.
+En uenighed mellem de to metoder er ofte en forretningsmodel, der ikke er navngivet.
+
 ## Metode A — bruttomargin
 
 `omsætning ≈ bruttofortjeneste ÷ bruttomargin`

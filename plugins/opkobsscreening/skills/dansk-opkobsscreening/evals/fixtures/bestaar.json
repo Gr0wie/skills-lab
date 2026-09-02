@@ -1,0 +1,132 @@
+{
+  "_kommentar": "Opdigtede selskaber. Filen SKAL bestå validate_data.py uden fejl — den viser den form, hver regel kræver.",
+  "meta": {
+    "titel": "Testscreening — består",
+    "undertitel": "Fixture til test_validate_data.py",
+    "dato": "2. september 2026",
+    "periode_note": "Regnskabsår 2024/25",
+    "kriterier": ["Omsætning 30–150 mio. DKK", "Dansk hovedsæde", "Ikke koncernejet"],
+    "oms_min": 30,
+    "oms_max": 150,
+    "antal_vurderet": 20,
+    "hovedkonklusion": "Fixture. <b>Ejerforhold — ikke størrelse — er den hyppigste årsag til fravalg.</b>",
+    "kilder_linje": "Kilder: opdigtede."
+  },
+  "kandidater": [
+    {
+      "navn": "Nordkyst Tavler A/S", "cvr": "10000001", "segment": "Tavler", "by": "Testby",
+      "hjemmeside": "nordkyst-tavler.dk",
+      "omsaetning": null, "bruttofortjeneste": 24.0, "regnskabsaar": "2024/25", "ansatte": 30, "egenkapital": 20.0,
+      "aarets_resultat": 5.0, "personaleomkostninger": 16.0, "afskrivninger": 1.5, "ebit": 6.5,
+      "ejerforhold": "100 % ejet af NK Holding ApS. Peter Nord står som eneste ultimative ejer ifølge ejerkæden. Ikke del af nogen koncern ifølge selskabets om-side, sidefoden og ejerkæden.",
+      "beskrivelse": "Bygger el- og styretavler til industrien.",
+      "fit": "Passer på størrelse og ejerskab.",
+      "usikkerheder": "OMSÆTNING ESTIMERET 40–70 mio. Forretningsmodel: producent med egen produktion i Danmark (28 af 30 ansatte i det danske selskab, ét P-nummer). Bruttomargin: 24 ÷ 0,35–0,45 = 53–69. Omsætning pr. ansat: 30 × 1,5–2,5 = 45–75.",
+      "kilde": "Regnskabstal: proff.dk/regnskab/nordkyst-tavler-as/testby/producenter/X1. Ejerkæde: ownr.dk/companies/public-profile/10000001. Eget site: nordkyst-tavler.dk/om-os og sidefoden. Primærkilde: datacvr.virk.dk/enhed/virksomhed/10000001",
+      "skoen": { "lav": 40, "hoej": 70, "status": "inde", "flag": "inden for", "forretningsmodel": "producent" }
+    },
+    {
+      "navn": "Fjordkabel ApS", "cvr": "10000002", "segment": "Kabler", "by": "Testby",
+      "hjemmeside": "fjordkabel.dk",
+      "omsaetning": null, "bruttofortjeneste": 18.0, "regnskabsaar": "2024", "ansatte": 25, "egenkapital": 9.0,
+      "aarets_resultat": 2.0,
+      "ejerforhold": "Legale ejere: FK Holding ApS (66,66–89,99 %) og LK Invest ApS (10–14,99 %). Ultimative ejere ifølge ejerkæden: to personer med samme efternavn. Ikke del af nogen koncern ifølge selskabets egne sider og ejerkæden.",
+      "beskrivelse": "Konfektionerer kabler til vind og industri.",
+      "fit": "Familieejet, muligt generationsskifte.",
+      "usikkerheder": "OMSÆTNING ESTIMERET 40–60 mio. Forretningsmodel: grossist — selskabet oplyser selv, at produktionen ligger hos en partner i Litauen, og vareforbruget er højt i forhold til bruttofortjenesten. Bruttomargin: 18 ÷ 0,30–0,45 = 40–60. Omsætning pr. ansat: 25 × 1,5–2,5 = 38–63.",
+      "kilde": "Regnskabstal: proff.dk/regnskab/fjordkabel-aps/testby/producenter/X2. Ejerkæde: ownr.dk/companies/public-profile/10000002. Eget site: fjordkabel.dk/om og sidefoden",
+      "skoen": { "lav": 40, "hoej": 60, "status": "inde", "flag": "inden for", "forretningsmodel": "grossist" }
+    },
+    {
+      "navn": "Vestjysk Styring A/S", "cvr": "10000003", "segment": "Styring", "by": "Testby",
+      "hjemmeside": "https://www.vestjysk-styring.dk/",
+      "omsaetning": null, "bruttofortjeneste": 25.0, "regnskabsaar": "2024/25", "ansatte": 28, "egenkapital": 30.0,
+      "aarets_resultat": 4.0, "personaleomkostninger": 17.0, "afskrivninger": 2.0, "ebit": 6.0,
+      "ejerforhold": "100 % ejet af VS Invest ApS. Ikke del af nogen koncern ifølge selskabets om-side og ejerkæden.",
+      "beskrivelse": "Styringer til procesindustri og energi.",
+      "fit": "God.",
+      "usikkerheder": "OMSÆTNING ESTIMERET 55–85 mio. Forretningsmodel: producent. Bruttomargin: 25 ÷ 0,30–0,45 = 56–83. Omsætning pr. ansat: 28 × 2,0–3,0 = 56–84.",
+      "kilde": "Regnskabstal: proff.dk/regnskab/vestjysk-styring-as/testby/producenter/X3. Ejerkæde: ownr.dk/companies/public-profile/10000003. Eget site: vestjysk-styring.dk/om-os og sidefoden",
+      "skoen": { "lav": 55, "hoej": 85, "status": "inde", "flag": "inden for", "forretningsmodel": "producent" }
+    },
+    {
+      "navn": "Limfjord El-Montage A/S", "cvr": "10000004", "segment": "Installation", "by": "Testby",
+      "hjemmeside": "limfjord-el.dk",
+      "omsaetning": null, "bruttofortjeneste": 12.0, "regnskabsaar": "2024", "ansatte": 20, "egenkapital": 6.0,
+      "aarets_resultat": 1.0,
+      "ejerforhold": "Ejet af to brødre via hver sit holdingselskab. Ikke del af nogen koncern.",
+      "beskrivelse": "El-entreprise.",
+      "fit": "Lille, men i intervallet ifølge skønnet.",
+      "usikkerheder": "OMSÆTNING ESTIMERET 30–45 mio. Forretningsmodel: entreprenør med lav margin. Bruttomargin: 12 ÷ 0,30–0,40 = 30–40. Omsætning pr. ansat: 20 × 1,5–2,2 = 30–44.",
+      "kilde": "Regnskabstal: proff.dk/regnskab/limfjord-el-montage-as/testby/el/X4. Ejerkæde: ownr.dk/companies/public-profile/10000004",
+      "skoen": { "lav": 30, "hoej": 45, "status": "inde", "flag": "inden for", "forretningsmodel": "entreprenoer" }
+    },
+    {
+      "navn": "Østkyst Transformere ApS", "cvr": "10000005", "segment": "Transformere", "by": "Testby",
+      "hjemmeside": "oestkyst-trafo.dk",
+      "omsaetning": null, "bruttofortjeneste": 20.0, "regnskabsaar": "2024/25", "ansatte": 22, "egenkapital": 40.0,
+      "aarets_resultat": 10.0,
+      "ejerforhold": "100 % ejet af ØT Holding ApS. Ikke del af nogen koncern ifølge ejerkæden.",
+      "beskrivelse": "Transformere til vind og industri.",
+      "fit": "God.",
+      "usikkerheder": "OMSÆTNING ESTIMERET 45–70 mio. Forretningsmodel: producent. Årets resultat er over en tredjedel af bruttofortjenesten; det skyldes en resultatandel fra en dattervirksomhed ifølge årsrapporten. Bruttomargin: 20 ÷ 0,30–0,45 = 44–67. Omsætning pr. ansat: 22 × 2,0–3,0 = 44–66.",
+      "kilde": "Regnskabstal: proff.dk/regnskab/oestkyst-transformere-aps/testby/producenter/X5. Ejerkæde: ownr.dk/companies/public-profile/10000005",
+      "skoen": { "lav": 45, "hoej": 70, "status": "inde", "flag": "inden for", "forretningsmodel": "producent" }
+    }
+  ],
+  "fravalgte": [
+    {
+      "navn": "Havvind Konvertere A/S", "cvr": "10000011", "segment": "Konvertere",
+      "noegletal": "Bruttofortjeneste 40 mio. (2024), 60 ansatte",
+      "begrundelse": "Passede på alt, men blev overtaget af en udenlandsk koncern i 2026. Handlen er ikke omtalt i pressen; kun selskabsregistret viser den.",
+      "kilde": "ownr.dk/companies/public-profile/10000011; proff.dk/regnskab/havvind-konvertere-as/testby/producenter/Y1. Søgt uden fund: koeber.example/newsroom, energy-supply.dk, kapwatch.dk",
+      "ejerskifte": { "annonceret": null, "closing": "2026-06-30", "koeber": "Nordwind Industrie GmbH",
+                      "kilde_closing": "ownr.dk/companies/public-profile/10000011, ny ejer registreret 30.06.2026" }
+    },
+    {
+      "navn": "Fjordstyring ApS", "cvr": "10000012", "segment": "Styring",
+      "noegletal": "Bruttofortjeneste 15 mio. (2024), 18 ansatte",
+      "begrundelse": "Solgt til Nordsee Automation GmbH i 2023, og har siden været en tysk koncerns danske datterselskab.",
+      "kilde": "energy-supply.dk, 14.03.2023; ownr.dk/companies/public-profile/10000012; proff.dk/regnskab/fjordstyring-aps/testby/producenter/Y2"
+    },
+    {
+      "navn": "Kystkabel A/S", "cvr": "10000013", "segment": "Kabler",
+      "noegletal": "Bruttofortjeneste 30 mio. (2024/25), 40 ansatte",
+      "begrundelse": "Opkøbt i 2025 af en svensk kabelkoncern, som nu ejer 100 %. Selskabet drives videre under eget navn.",
+      "kilde": "ownr.dk/companies/public-profile/10000013; proff.dk/regnskab/kystkabel-as/testby/producenter/Y3",
+      "ejerskifte": { "annonceret": "2025-03-01", "closing": "2025-06-01", "koeber": "Nordic Cable Group AB",
+                      "saelgers_andel_efter": "0 %",
+                      "kilde_annoncering": "nordiccable.example/news/kystkabel, 01.03.2025",
+                      "kilde_closing": "ownr.dk/companies/public-profile/10000013, ejerskifte registreret 01.06.2025" }
+    },
+    {
+      "navn": "Sensorhuset ApS", "cvr": "10000014", "segment": "Sensorer",
+      "noegletal": "ikke undersøgt",
+      "begrundelse": "Under omsætningsgulvet: bruttofortjeneste 6 mio. og 9 ansatte i regnskabsåret 2024/25 giver højst 20 mio. i omsætning.",
+      "kilde": "proff.dk/regnskab/sensorhuset-aps/testby/producenter/Y4; ownr.dk/companies/public-profile/10000014"
+    },
+    {
+      "navn": "Bæltkabel A/S", "cvr": "10000015", "segment": "Kabler",
+      "noegletal": "Omsætning 210 mio. (2024/25), 90 ansatte",
+      "begrundelse": "Over omsætningsloftet: oplyst omsætning 210 mio. i 2024/25, og det er ikke et enkeltstående år ifølge femårsoversigten.",
+      "kilde": "proff.dk/regnskab/baeltkabel-as/testby/producenter/Y5; ownr.dk/companies/public-profile/10000015"
+    }
+  ],
+  "oevrige_fravalgte": [
+    { "aarsag": "Udenlandsk industriel ejer", "antal": 8, "gruppe": "ejerskab", "selskaber": "A · B · C · D · E · F · G · H" },
+    { "aarsag": "Under omsætningsgulvet", "antal": 5, "gruppe": "stoerrelse", "selskaber": "M · N · O · P · Q" },
+    { "aarsag": "Ikke vindrelevant", "antal": 2, "gruppe": "oevrigt", "selskaber": "R · S" }
+  ],
+  "segmentdaekning": [
+    { "navn": "Tavler", "antal": 1 }, { "navn": "Kabler", "antal": 1 }, { "navn": "Styring", "antal": 1 },
+    { "navn": "Installation", "antal": 1 }, { "navn": "Transformere", "antal": 1 }, { "navn": "Sensorer", "antal": 0 }
+  ],
+  "metode": [
+    ["h1", "Metode og forbehold"],
+    ["h2", "1. Sådan blev der søgt"],
+    ["p", "Bruttolisten blev søgt frem via brancheorganisationer og proff.dk. Omsætning er estimeret med to metoder, og forretningsmodellen er afgjort først."],
+    ["h2", "2. Hvad der ikke kunne verificeres"],
+    ["p", "Nøgletal for Sensorhuset er ikke undersøgt. Vindandelen af omsætningen kan ikke verificeres i offentlige kilder; læseren bør være skeptisk over for skøn, hvor de to metoder er uenige."],
+    ["h2", "Øvrige fravalgte"]
+  ]
+}
